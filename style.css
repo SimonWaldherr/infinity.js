@@ -1,0 +1,84 @@
+/* * * * * * * * *
+ *  infinity.js  *
+ * Version  0.01 *
+ * License:  MIT *
+ * SimonWaldherr *
+ * * * * * * * * */
+
+#cal {
+  position: relative;
+  z-index: 1;
+  top: 50px;
+  width: 100%;
+  margin: auto;
+}
+
+#container {
+  position: absolute;
+  top: 20px;
+  left: 160px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.container {
+  position: absolute;
+  top: 42px !important;
+  left: 0px;
+  right: 0px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.topbar {
+  position: fixed;
+  text-align: center;
+  z-index: 5;
+  height: 42px;
+  width: 100%;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background: #eeeeee;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc));
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%);
+  background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%);
+  background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%);
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 );
+}
+
+.footer {
+  position: fixed;
+  bottom: 0px;
+  height: 45px;
+  text-align: center;
+  left: 0px;
+  right: 0px;
+  background: #ccc;
+  z-index: 4;
+}
+
+#container div {
+  height: 100px;
+}
+
+table {
+  border-spacing: 0px;
+}
+
+table tr td div {
+  position: relative;
+  top: 10px;
+  left: 5px;
+  font-family: Helvetica Neue;
+  font-size: 12px;
+  text-align: left;
+  background: #cef;
+  border-radius: 5px;
+  margin: 2px;
+  padding: 2px;
+}
