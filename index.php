@@ -15,12 +15,19 @@
   <script type="text/javascript" src="./disTime.js"></script>
   <script type="text/javascript" src="./infinity.js"></script>
   <script type="text/javascript">
+    var config = {'lang' : 'en', 'time' : '60*60*24', 'detail' : 1};
+    
+    function infinityAfterAjax () {
+      disTime(<?php echo time(); ?>-parseInt(Date.now()/1000),config['lang'],parseInt(config['detail'],10));
+    }
+    
     function init() {
       var cal = document.getElementById('container');
+      
       cal.infinityinit();
       cal.infinityFirst();
       
-      setTimeout("document.body.setAttribute('data-scrolling', 'false');", 400);
+      //cal.infinityFirst(function () {disTime(<?php echo time(); ?>-parseInt(Date.now()/1000),config['lang'],parseInt(config['detail'],10))});
     }
     
     window.onload = function() {

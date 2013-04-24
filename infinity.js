@@ -1,6 +1,6 @@
 /* * * * * * * * *
  *  infinity.js  *
- * Version  0.01 *
+ * Version  0.02 *
  * License:  MIT *
  * SimonWaldherr *
  * * * * * * * * */
@@ -37,13 +37,16 @@ var infinityAjax = function (element, url, json, callback) {
             "duration": (endtime.getTime() - starttime.getTime()),
             "status": true
           });
+          if(typeof infinityAfterAjax === 'function') {
+            infinityAfterAjax();
+          }
         }
       }
     }
   };
 
-  keyArray = json.keys;
-  for (i = 0; i < json.length; i++) {
+  keyArray = Object.keys(json);
+  for (i = 0; i < keyArray.length; i++) {
     if (i !== 0) {
       postdata += "&";
     }
@@ -55,7 +58,7 @@ var infinityAjax = function (element, url, json, callback) {
   ajax.send(postdata);
 };
 
-Object.prototype.infinityFirst = function () {
+Object.prototype.infinityFirst = function (callback) {
   "use strict";
   var target,
     event = document.createEvent("Event"),
@@ -73,18 +76,11 @@ Object.prototype.infinityFirst = function () {
     if (json.response.classname !== undefined) {
       newdiv.id = json.response.id;
     }
-    newdiv.innerHTML = json.response.html;
-    if (!event) {
-      event.initEvent("infinity", false, false);
-      event.target = json.element;
-      json.element.dispatchEvent(event);
-    } else {
-      event.initEvent("infinity", false, false);
-      target = event.srcElement || event.target;
-      target = json.element;
-      json.element.dispatchEvent(event);
-    }
+    newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
     json.element.appendChild(newdiv);
+    if(typeof callback === 'function') {
+      callback();
+    }
   });
 };
 
@@ -95,7 +91,7 @@ Object.prototype.infinityAppend = function () {
     newdiv;
 
   infinityAjax(this, this.getAttribute("data-url"), {
-    "earliest": this.getAttribute("data-earliest")
+    "latest": this.getAttribute("data-earliest")
   }, function (json) {
     newdiv = document.createElement("div");
     json.element.setAttribute("data-latest", json.response.latest);
@@ -105,17 +101,7 @@ Object.prototype.infinityAppend = function () {
     if (json.response.classname !== undefined) {
       newdiv.id = json.response.id;
     }
-    newdiv.innerHTML = json.response.html;
-    if (!event) {
-      event.initEvent("infinity", false, false);
-      event.target = json.element;
-      json.element.dispatchEvent(event);
-    } else {
-      event.initEvent("infinity", false, false);
-      target = event.srcElement || event.target;
-      target = json.element;
-      json.element.dispatchEvent(event);
-    }
+    newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
     json.element.appendChild(newdiv);
   });
 };
@@ -141,17 +127,7 @@ Object.prototype.infinityPrepend = function () {
     if (json.response.classname !== undefined) {
       newdiv.id = json.response.id;
     }
-    newdiv.innerHTML = json.response.html;
-    if (!event) {
-      event.initEvent("infinity", false, false);
-      event.target = json.element;
-      json.element.dispatchEvent(event);
-    } else {
-      event.initEvent("infinity", false, false);
-      target = event.srcElement || event.target;
-      target = json.element;
-      json.element.dispatchEvent(event);
-    }
+    newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
     height = 0;
     oldHeight = 0;
     yPos = json.element.scrollTop;
