@@ -61,7 +61,7 @@ var infinityAjax = function (element, url, json, callback) {
 
 Object.prototype.infinityFirst = function (callback) {
   "use strict";
-  var newdiv;
+  var newdiv, i;
 
   infinityAjax(this, this.getAttribute("data-url"), {
     "height": this.offsetHeight
@@ -72,11 +72,27 @@ Object.prototype.infinityFirst = function (callback) {
     if (json.response.classname !== undefined) {
       newdiv.className = json.response.classname;
     }
-    if (json.response.classname !== undefined) {
+    if (json.response.id !== undefined) {
       newdiv.id = json.response.id;
     }
-    newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
-    json.element.appendChild(newdiv);
+    if(json.response.itemscount != 1) {
+      console.log(json.response);
+      for(i = 0; i < json.response.itemscount; i++) {
+        newdiv = document.createElement("div");
+        if (json.response.items[i].classname !== undefined) {
+          newdiv.className = json.response.items[i].classname;
+        }
+        if (json.response.items[i].id !== undefined) {
+          newdiv.id = json.response.items[i].id;
+        }
+        newdiv.innerHTML = '<p class="distime" data-time="'+json.response.items[i].date+'">'+json.response.items[i].date+'</p><div>'+json.response.items[i].html+'</div>';
+        console.log(newdiv);
+        json.element.appendChild(newdiv);
+      }
+    } else {
+      newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
+      json.element.appendChild(newdiv);
+    }
     json.element.setAttribute('data-loading', 'false');
     if(typeof callback === 'function') {
       callback();
@@ -89,7 +105,7 @@ Object.prototype.infinityAppend = function () {
   var newdiv;
 
   infinityAjax(this, this.getAttribute("data-url"), {
-    "latest": this.getAttribute("data-earliest")
+    "latest": this.getAttribute("data-latest")
   }, function (json) {
     newdiv = document.createElement("div");
     json.element.setAttribute("data-latest", json.response.latest);
