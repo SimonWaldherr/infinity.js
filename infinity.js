@@ -75,8 +75,7 @@ Object.prototype.infinityFirst = function (callback) {
     if (json.response.id !== undefined) {
       newdiv.id = json.response.id;
     }
-    if(json.response.itemscount != 1) {
-      console.log(json.response);
+    if(json.response.itemscount !== 1) {
       for(i = 0; i < json.response.itemscount; i++) {
         newdiv = document.createElement("div");
         if (json.response.items[i].classname !== undefined) {
@@ -86,7 +85,6 @@ Object.prototype.infinityFirst = function (callback) {
           newdiv.id = json.response.items[i].id;
         }
         newdiv.innerHTML = '<p class="distime" data-time="'+json.response.items[i].date+'">'+json.response.items[i].date+'</p><div>'+json.response.items[i].html+'</div>';
-        console.log(newdiv);
         json.element.appendChild(newdiv);
       }
     } else {

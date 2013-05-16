@@ -18,18 +18,17 @@ if($earliest>1000) {                //append
   $data['html']   = hash("md5", rand(1111,999999999999999)).'<br/>'.$data['date'];
 } else {                            //init
   $new                         = time()-5500;
-  $data['latest']              = $new;
+  $data['earliest']            = $new;
   for($i = 0; $i < 20; $i++) {
     $data['items'][$i]['date'] = $new;
     $data['items'][$i]['html'] = hash("md5", rand(1111,999999999999999)).'<br/>'.$data[$i]['date'];
     $new                       = $new - rand(10,360);
   }
   $data['itemscount'] = $i;
-  $data['earliest']   = $new;
+  $data['latest']     = $new;
 }
 
 $data['status'] = true;
-
 
 die(json_encode($data));
 
