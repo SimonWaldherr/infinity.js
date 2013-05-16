@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <title>infinity.js</title>
-  <link href="style.css" rel="stylesheet" type="text/css">
+  <link href="./files_for_demo/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
   <div id="scrolldiv">
@@ -12,7 +12,7 @@
     <p onclick="ScrollToElement(document.getElementsByClassName('today')[0]);"><!--scroll to --></p>
   </div>
   <div id="container" class="container" data-url="./serverside/"></div>
-  <script type="text/javascript" src="./disTime.js"></script>
+  <script type="text/javascript" src="./files_for_demo/disTime.js"></script>
   <script type="text/javascript" src="./infinity.js"></script>
   <script type="text/javascript">
     var config = {'lang' : 'en', 'time' : '60*60*24', 'detail' : 1};
