@@ -1,10 +1,13 @@
 # * * * * * * * * *
 # *  infinity.js  *
-# * Version  0.02 *
+# * Version 0.3.0 *
 # * License:  MIT *
 # * SimonWaldherr *
 # * * * * * * * * *
 
+#jslint browser: true, plusplus: true, indent: 2 
+
+#global ActiveXObject, window, infinityAfterAjax 
 infinityAjax = (element, url, json, callback) ->
   "use strict"
   ajax = undefined
@@ -49,15 +52,15 @@ infinityAjax = (element, url, json, callback) ->
     postdata += keyArray[i] + "=" + json[keyArray[i]]
     i++
   requrl = (if (url.indexOf("?") isnt -1) then url + "&rt=" + starttime.getTime() else url + "?rt=" + starttime.getTime())
+  element.setAttribute "data-loading", "true"
   ajax.open "POST", requrl, true
   ajax.setRequestHeader "Content-type", "application/x-www-form-urlencoded"
   ajax.send postdata
 
 Object::infinityFirst = (callback) ->
   "use strict"
-  target = undefined
-  event = document.createEvent("Event")
   newdiv = undefined
+  i = undefined
   infinityAjax this, @getAttribute("data-url"),
     height: @offsetHeight
   , (json) ->
@@ -65,19 +68,28 @@ Object::infinityFirst = (callback) ->
     json.element.setAttribute "data-earliest", json.response.earliest
     json.element.setAttribute "data-latest", json.response.latest
     newdiv.className = json.response.classname  if json.response.classname isnt `undefined`
-    newdiv.id = json.response.id  if json.response.classname isnt `undefined`
-    newdiv.innerHTML = "<p class=\"distime\" data-time=\"" + json.response.date + "\">" + json.response.date + "</p><div>" + json.response.html + "</div>"
-    json.element.appendChild newdiv
+    newdiv.id = json.response.id  if json.response.id isnt `undefined`
+    if json.response.itemscount isnt 1
+      i = 0
+      while i < json.response.itemscount
+        newdiv = document.createElement("div")
+        newdiv.className = json.response.items[i].classname  if json.response.items[i].classname isnt `undefined`
+        newdiv.id = json.response.items[i].id  if json.response.items[i].id isnt `undefined`
+        newdiv.innerHTML = "<p class=\"distime\" data-time=\"" + json.response.items[i].date + "\">" + json.response.items[i].date + "</p><div>" + json.response.items[i].html + "</div>"
+        json.element.appendChild newdiv
+        i++
+    else
+      newdiv.innerHTML = "<p class=\"distime\" data-time=\"" + json.response.date + "\">" + json.response.date + "</p><div>" + json.response.html + "</div>"
+      json.element.appendChild newdiv
+    json.element.setAttribute "data-loading", "false"
     callback()  if typeof callback is "function"
 
 
 Object::infinityAppend = ->
   "use strict"
-  target = undefined
-  event = document.createEvent("Event")
   newdiv = undefined
   infinityAjax this, @getAttribute("data-url"),
-    latest: @getAttribute("data-earliest")
+    latest: @getAttribute("data-latest")
   , (json) ->
     newdiv = document.createElement("div")
     json.element.setAttribute "data-latest", json.response.latest
@@ -85,12 +97,11 @@ Object::infinityAppend = ->
     newdiv.id = json.response.id  if json.response.classname isnt `undefined`
     newdiv.innerHTML = "<p class=\"distime\" data-time=\"" + json.response.date + "\">" + json.response.date + "</p><div>" + json.response.html + "</div>"
     json.element.appendChild newdiv
+    json.element.setAttribute "data-loading", "false"
 
 
 Object::infinityPrepend = ->
   "use strict"
-  target = undefined
-  event = document.createEvent("Event")
   height = undefined
   oldHeight = undefined
   yPos = undefined
@@ -112,6 +123,7 @@ Object::infinityPrepend = ->
       oldHeight += json.element.children[i].clientHeight
       i++
     json.element.insertBefore newdiv, json.element.firstChild
+    json.element.setAttribute "data-loading", "false"
     height = 0
     i = 0
     while i < json.element.children.length
@@ -124,15 +136,13 @@ reloadOnScroll = (ele) ->
   "use strict"
   yPos = ele.scrollTop
   height = 0
-  oldHeight = undefined
   i = undefined
   i = 0
   while i < ele.children.length
     height += ele.children[i].clientHeight
     i++
-  return false  if document.body.getAttribute("data-scrolling") is "true"
+  return false  if (document.body.getAttribute("data-scrolling") is "true") or (ele.getAttribute("data-loading") is "true")
   if yPos < (ele.parentNode.clientHeight / 2)
-    oldHeight = height
     ele.infinityPrepend()
     return true
   if yPos > height - ele.parentNode.clientHeight - (ele.parentNode.clientHeight / 2)
@@ -142,7 +152,6 @@ reloadOnScroll = (ele) ->
 
 Object::infinityinit = ->
   "use strict"
-  target = undefined
   ele = this
   ele.onscroll = ->
     event = document.createEvent("Event")
@@ -156,6 +165,4 @@ Object::infinityinit = ->
         ele.dispatchEvent event
       else
         event.initEvent "infinity", false, false
-        target = event.srcElement or event.target
-        target = ele
         ele.dispatchEvent event

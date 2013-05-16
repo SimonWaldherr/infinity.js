@@ -1,6 +1,6 @@
 /* * * * * * * * *
  *  infinity.js  *
- * Version  0.02 *
+ * Version 0.3.0 *
  * License:  MIT *
  * SimonWaldherr *
  * * * * * * * * */
