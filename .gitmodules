@@ -1,0 +1,3 @@
+[submodule "files_for_demo/disTime"]
+	path = files_for_demo/disTime
+	url = https://github.com/SimonWaldherr/disTime.js.git

@@ -12,7 +12,7 @@
     <p onclick="ScrollToElement(document.getElementsByClassName('today')[0]);"><!--scroll to --></p>
   </div>
   <div id="container" class="container" data-url="./serverside/"></div>
-  <script type="text/javascript" src="./files_for_demo/disTime.js"></script>
+  <script type="text/javascript" src="./files_for_demo/disTime/disTime.js"></script>
   <script type="text/javascript" src="./infinity.js"></script>
   <script type="text/javascript">
     var config = {'lang' : 'en', 'time' : '60*60*24', 'detail' : 1};
