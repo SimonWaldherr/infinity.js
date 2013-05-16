@@ -26,8 +26,6 @@
       
       cal.infinityinit();
       cal.infinityFirst();
-      
-      //cal.infinityFirst(function () {disTime(<?php echo time(); ?>-parseInt(Date.now()/1000),config['lang'],parseInt(config['detail'],10))});
     }
     
     window.onload = function() {

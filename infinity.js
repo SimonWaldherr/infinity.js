@@ -6,7 +6,7 @@
  * * * * * * * * */
 
 /*jslint browser: true, plusplus: true, indent: 2 */
-/*global ActiveXObject, window */
+/*global ActiveXObject, window, infinityAfterAjax */
 
 var infinityAjax = function (element, url, json, callback) {
   "use strict";
@@ -53,6 +53,7 @@ var infinityAjax = function (element, url, json, callback) {
     postdata += keyArray[i] + "=" + json[keyArray[i]];
   }
   requrl = (url.indexOf("?") !== -1) ? url + "&rt=" + starttime.getTime() : url + "?rt=" + starttime.getTime();
+  element.setAttribute('data-loading', 'true');
   ajax.open("POST", requrl, true);
   ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   ajax.send(postdata);
@@ -60,9 +61,7 @@ var infinityAjax = function (element, url, json, callback) {
 
 Object.prototype.infinityFirst = function (callback) {
   "use strict";
-  var target,
-    event = document.createEvent("Event"),
-    newdiv;
+  var newdiv;
 
   infinityAjax(this, this.getAttribute("data-url"), {
     "height": this.offsetHeight
@@ -78,6 +77,7 @@ Object.prototype.infinityFirst = function (callback) {
     }
     newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
     json.element.appendChild(newdiv);
+    json.element.setAttribute('data-loading', 'false');
     if(typeof callback === 'function') {
       callback();
     }
@@ -86,9 +86,7 @@ Object.prototype.infinityFirst = function (callback) {
 
 Object.prototype.infinityAppend = function () {
   "use strict";
-  var target,
-    event = document.createEvent("Event"),
-    newdiv;
+  var newdiv;
 
   infinityAjax(this, this.getAttribute("data-url"), {
     "latest": this.getAttribute("data-earliest")
@@ -103,14 +101,13 @@ Object.prototype.infinityAppend = function () {
     }
     newdiv.innerHTML = '<p class="distime" data-time="'+json.response.date+'">'+json.response.date+'</p><div>'+json.response.html+'</div>';
     json.element.appendChild(newdiv);
+    json.element.setAttribute('data-loading', 'false');
   });
 };
 
 Object.prototype.infinityPrepend = function () {
   "use strict";
-  var target,
-    event = document.createEvent("Event"),
-    height,
+  var height,
     oldHeight,
     yPos,
     i,
@@ -135,6 +132,7 @@ Object.prototype.infinityPrepend = function () {
       oldHeight += json.element.children[i].clientHeight;
     }
     json.element.insertBefore(newdiv, json.element.firstChild);
+    json.element.setAttribute('data-loading', 'false');
     height = 0;
     for (i = 0; i < json.element.children.length; i++) {
       height += json.element.children[i].clientHeight;
@@ -147,17 +145,15 @@ var reloadOnScroll = function (ele) {
   "use strict";
   var yPos = ele.scrollTop,
     height = 0,
-    oldHeight,
     i;
 
   for (i = 0; i < ele.children.length; i++) {
     height += ele.children[i].clientHeight;
   }
-  if (document.body.getAttribute("data-scrolling") === "true") {
+  if ((document.body.getAttribute('data-scrolling') === 'true')||(ele.getAttribute('data-loading') === 'true')) {
     return false;
   }
   if (yPos < (ele.parentNode.clientHeight / 2)) {
-    oldHeight = height;
     ele.infinityPrepend();
     return true;
   }
@@ -170,7 +166,7 @@ var reloadOnScroll = function (ele) {
 
 Object.prototype.infinityinit = function () {
   "use strict";
-  var target, ele = this;
+  var ele = this;
   ele.onscroll = function () {
     var event = document.createEvent("Event"),
       returnvalue = false;
@@ -183,8 +179,6 @@ Object.prototype.infinityinit = function () {
         ele.dispatchEvent(event);
       } else {
         event.initEvent("infinity", false, false);
-        target = event.srcElement || event.target;
-        target = ele;
         ele.dispatchEvent(event);
       }
     }
