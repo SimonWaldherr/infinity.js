@@ -1,0 +1,48 @@
+{
+  "author": {
+    "email": "contact@simonwaldherr.de",
+    "name": "Simon Waldherr",
+    "url": "http://simon.waldherr.eu/"
+  },
+  "bugs": {
+    "email": "contact@simonwaldherr.de",
+    "url": "https://github.com/shownotes/disTime.js/issues"
+  },
+  "contributors": [
+    {
+      "email": "contact@simonwaldherr.de",
+      "name": "Simon Waldherr",
+      "url": "http://simon.waldherr.eu/"
+    }
+  ],
+  "demos": [
+    "./index.html"
+  ],
+  "description": "infinity.js adds infinite scrolling to webpages",
+  "devDependencies": {
+    "grunt": ">= 0.4.1",
+    "grunt-compare-size": ">= 0.0.0",
+    "grunt-contrib-uglify": ">= 0.2.2",
+    "gzip-js": ">= 0.3.1"
+  },
+  "homepage": "https://github.com/SimonWaldherr/infinity.js",
+  "keywords": [
+    "ajax",
+    "scroll"
+  ],
+  "license": "MIT",
+  "main": "infinity.js",
+  "maintainers": [
+    {
+      "email": "contact@simonwaldherr.de",
+      "name": "Simon Waldherr",
+      "web": "http://simon.waldherr.eu/"
+    }
+  ],
+  "name": "infinityjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SimonWaldherr/infinity.js.git"
+  },
+  "version": "0.3.0"
+}
