@@ -40,9 +40,11 @@
     }
   ],
   "name": "infinityjs",
+  "title": "infinity.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SimonWaldherr/infinity.js.git"
   },
-  "version": "0.3.0"
+  "version": "0.3.1"
 }
+        

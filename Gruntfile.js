@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       options: {
         banner: '/* * * * * * * * *\n' +
                 ' *  infinity.js  *\n' +
-                ' * Version 0.3.0 *\n' +
+                ' * Version 0.3.1 *\n' +
                 ' * License:  MIT *\n' +
                 ' * SimonWaldherr *\n' +
                 ' * * * * * * * * */\n\n'
